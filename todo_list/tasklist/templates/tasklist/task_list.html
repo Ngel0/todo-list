@@ -3,6 +3,17 @@
 {% block title %}My ToDo List{% endblock %}
 
 {% block content %}
+{% if user.is_authenticated %}
+<p>{{user}}</p>
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+<hr>
+
 <h1>All tasks</h1>
 <a href="{% url 'create-task' %}">Add task</a>
 

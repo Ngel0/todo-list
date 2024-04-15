@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tasklist',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,12 @@ TEMPLATES = [
         },
     },
 ]
+
+# URL to redirect to after login
+LOGIN_REDIRECT_URL = 'tasks'
+
+# URL to redirect to after logout
+LOGOUT_REDIRECT_URL = 'tasks'
 
 WSGI_APPLICATION = 'todo_list.wsgi.application'
 
