@@ -78,7 +78,7 @@ TEMPLATES = [
 LOGIN_REDIRECT_URL = 'tasks'
 
 # URL to redirect to after logout
-LOGOUT_REDIRECT_URL = 'tasks'
+LOGOUT_REDIRECT_URL = 'login'
 
 WSGI_APPLICATION = 'todo_list.wsgi.application'
 
