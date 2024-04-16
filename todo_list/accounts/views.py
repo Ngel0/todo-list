@@ -10,11 +10,9 @@ class SignUpView(CreateView):
     success_url = reverse_lazy('tasks')
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         username = form.cleaned_data.get('username')
         raw_password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=raw_password)
-        if user is not None:
-            login(self.request, user)
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form)
+        login(self.request, user)
+        return response
