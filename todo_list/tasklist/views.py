@@ -12,6 +12,7 @@ class TaskList(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['tasks'] = context['tasks'].filter(user=self.request.user)
+        context['incomplete_tasks_count'] = context['tasks'].filter(is_completed=False).count()
         return context
 
 class TaskDetail(DetailView):

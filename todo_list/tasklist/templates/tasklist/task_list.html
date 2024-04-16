@@ -4,7 +4,6 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<p>{{user}}</p>
 <form method="post" action="{% url 'logout' %}">
     {% csrf_token %}
     <button type="submit">Log out</button>
@@ -13,9 +12,8 @@
 <a href="{% url 'signup' %}">Sign up</a>
 <a href="{% url 'login' %}">Log in</a>
 {% endif %}
-<hr>
 
-<h1>All tasks</h1>
+<h1>Hello {{user}}, you have <i>{{incomplete_tasks_count}}</i> incomplete tasks</h1>
 <a href="{% url 'create-task' %}">Add task</a>
 
 <table>
