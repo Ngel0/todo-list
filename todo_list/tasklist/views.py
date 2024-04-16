@@ -9,6 +9,11 @@ class TaskList(ListView):
     model = Task
     context_object_name = 'tasks'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['tasks'] = context['tasks'].filter(user=self.request.user)
+        return context
+
 class TaskDetail(DetailView):
     model = Task
     context_object_name = 'task'
@@ -16,12 +21,16 @@ class TaskDetail(DetailView):
 
 class TaskCreate(CreateView):
     model = Task
-    fields = '__all__'
+    fields = ['title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class TaskUpdate(UpdateView):
     model = Task
-    fields = '__all__'
+    fields = ['title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
 
 class TaskDelete(DeleteView):
