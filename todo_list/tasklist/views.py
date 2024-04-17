@@ -9,9 +9,11 @@ class TaskList(ListView):
     model = Task
     context_object_name = 'tasks'
 
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['tasks'] = context['tasks'].filter(user=self.request.user)
         context['incomplete_tasks_count'] = context['tasks'].filter(is_completed=False).count()
         return context
 
