@@ -17,10 +17,12 @@ class TaskList(ListView):
         context['incomplete_tasks_count'] = context['tasks'].filter(is_completed=False).count()
         return context
 
+
 class TaskDetail(DetailView):
     model = Task
     context_object_name = 'task'
     template_name = 'tasklist/task.html'
+
 
 class TaskCreate(CreateView):
     model = Task
@@ -31,10 +33,12 @@ class TaskCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class TaskUpdate(UpdateView):
     model = Task
     fields = ['title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
+
 
 class TaskDelete(DeleteView):
     model = Task
