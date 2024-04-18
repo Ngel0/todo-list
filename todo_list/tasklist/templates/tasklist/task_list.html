@@ -18,15 +18,20 @@
 
 <table>
     <tr>
+        <th></th>
         <th>The task</th>
         <th>Description</th>
-        <th>View</th>
+        <th>Edit</th>
     </tr>
     {% for task in tasks %}
     <tr>
+        <td>
+            {% if task.is_completed %}
+            DONE
+            {% endif %}
+        </td>
         <td>{{task.title}}</td>
         <td>{{task.description}}</td>
-        <td><a href="{% url 'task' task.id %}">View</a></td>
         <td><a href="{% url 'update-task' task.id %}">Edit</a></td>
         <td><a href="{% url 'delete-task' task.id %}">Delete</a></td>
     </tr>
