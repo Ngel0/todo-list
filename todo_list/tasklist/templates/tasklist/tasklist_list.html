@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}All Tasklists{% endblock %}
+
+{% block content %}
+<a href="{% url 'tasks' %}">Go back</a>
+<table>
+    {% for tasklist in tasklists %}
+    <tr>
+        <td><a href="{% url 'tasklist-detail' tasklist.id %}">{{tasklist.title}}</a></td>
+        <td><a href="{% url 'update-tasklist' tasklist.id %}">Rename</a></td>
+        <td><a href="{% url 'delete-tasklist' tasklist.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3>No tasklists left</h3>
+    {% endfor %}
+</table>
+<a href="{% url 'create-tasklist' %}">Add tasklist</a>
+{% endblock %}

@@ -3,15 +3,56 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Task
+from .models import TaskList, Task
 
 
-class TaskList(LoginRequiredMixin, ListView):
+# TaskList views
+class TaskListList(LoginRequiredMixin, ListView):
+    model = TaskList
+    context_object_name = 'tasklists'
+
+    def get_queryset(self):
+        return TaskList.objects.filter(user=self.request.user)
+
+
+class TaskListDetail(LoginRequiredMixin, DetailView):
+    model = TaskList
+    context_object_name = 'tasklist'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = Task.objects.filter(todo_list=self.object)
+        return context
+
+
+class TaskListCreate(LoginRequiredMixin, CreateView):
+    model = TaskList
+    fields = ['title']
+    success_url = reverse_lazy('tasklists')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class TaskListUpdate(LoginRequiredMixin, UpdateView):
+    model = TaskList
+    fields = ['title']
+    success_url = reverse_lazy('tasklists')
+
+
+class TaskListDelete(LoginRequiredMixin, DeleteView):
+    model = TaskList
+    context_object_name = 'tasklist'
+    success_url = reverse_lazy('tasklists')
+
+
+# Task views
+class TaskItemList(LoginRequiredMixin, ListView):
     model = Task
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+        return Task.objects.filter(user=self.request.user)#.order_by('todo_list', 'is_completed')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -27,7 +68,7 @@ class TaskDetail(LoginRequiredMixin, DetailView):
 
 class TaskCreate(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['title', 'description', 'is_completed']
+    fields = ['todo_list', 'title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
 
     def form_valid(self, form):
@@ -37,7 +78,7 @@ class TaskCreate(LoginRequiredMixin, CreateView):
 
 class TaskUpdate(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['title', 'description', 'is_completed']
+    fields = ['todo_list', 'title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
 
 

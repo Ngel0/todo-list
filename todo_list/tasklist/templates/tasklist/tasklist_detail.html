@@ -1,27 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}My ToDo List{% endblock %}
+{% block title %}Tasklist Tasks{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-<form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Log out</button>
-</form>
-{% else %}
-<a href="{% url 'signup' %}">Sign up</a>
-<a href="{% url 'login' %}">Log in</a>
-{% endif %}
-
-<h1>Hello {{user}}, you have <i>{{incomplete_tasks_count}}</i> incomplete tasks</h1>
-<a href="{% url 'tasklists' %}">See tasklists</a>
-<a href="{% url 'create-tasklist' %}">Add tasklist</a>
-<a href="{% url 'create-task' %}">Add task</a>
-
+<a href="{% url 'tasklists' %}">Go back</a>
+<a href="{% url 'tasks' %}">Go Home</a>
+<p>
+    <b>{{tasklist.title}}</b>
+    <a href="{% url 'update-tasklist' tasklist.id %}">Rename</a>
+    <a href="{% url 'delete-tasklist' tasklist.id %}">Delete</a>
+</p>
 <table>
     <tr>
         <th>Status</th>
-        <th>The list</th>
         <th>The task</th>
         <th>Description</th>
         <th>Edit</th>
@@ -33,7 +24,6 @@
             DONE
             {% endif %}
         </td>
-        <td>{{task.todo_list}}</td>
         <td>{{task.title}}</td>
         <td>{{task.description}}</td>
         <td><a href="{% url 'update-task' task.id %}">Edit</a></td>

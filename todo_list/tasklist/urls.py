@@ -1,11 +1,17 @@
 from django.urls import path, include
-from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete
+from . import views
+#from .views import TaskList, TaskDetail, TaskCreate, TaskUpdate, TaskDelete
 
 urlpatterns = [
-    path('', TaskList.as_view(), name='tasks'),
-    path('task/<int:pk>/', TaskDetail.as_view(), name='task'),
-    path('create-task/', TaskCreate.as_view(), name='create-task'),
-    path('update-task/<int:pk>/', TaskUpdate.as_view(), name='update-task'),
-    path('delete-task/<int:pk>/', TaskDelete.as_view(), name='delete-task'),
+    path('', views.TaskItemList.as_view(), name='tasks'),
+    path('task/<int:pk>/', views.TaskDetail.as_view(), name='task'),
+    path('create-task/', views.TaskCreate.as_view(), name='create-task'),
+    path('update-task/<int:pk>/', views.TaskUpdate.as_view(), name='update-task'),
+    path('delete-task/<int:pk>/', views.TaskDelete.as_view(), name='delete-task'),
+    path('tasklists/', views.TaskListList.as_view(), name='tasklists'),
+    path('tasklist/<int:pk>/', views.TaskListDetail.as_view(), name='tasklist-detail'),
+    path('create-tasklist/', views.TaskListCreate.as_view(), name='create-tasklist'),
+    path('update-tasklist/<int:pk>/', views.TaskListUpdate.as_view(), name='update-tasklist'),
+    path('delete-tasklist/<int:pk>/', views.TaskListDelete.as_view(), name='delete-tasklist'),
     path('accounts/', include('accounts.urls')),
 ]
