@@ -22,5 +22,5 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
-    class Meta:
-        ordering = ['is_completed']
+    # class Meta:
+    #     ordering = ['is_completed']

@@ -20,7 +20,7 @@ class TaskListDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'tasklist'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.filter(todo_list=self.object)
+        context['tasks'] = Task.objects.filter(todo_list=self.object).order_by('is_completed')
         return context
 
 
@@ -52,7 +52,7 @@ class TaskItemList(LoginRequiredMixin, ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)#.order_by('todo_list', 'is_completed')
+        return Task.objects.filter(user=self.request.user).order_by('todo_list', 'is_completed')
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -60,13 +60,13 @@ class TaskItemList(LoginRequiredMixin, ListView):
         return context
 
 
-class TaskDetail(LoginRequiredMixin, DetailView):
+class TaskItemDetail(LoginRequiredMixin, DetailView):
     model = Task
     context_object_name = 'task'
     template_name = 'tasklist/task.html'
 
 
-class TaskCreate(LoginRequiredMixin, CreateView):
+class TaskItemCreate(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['todo_list', 'title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
@@ -76,13 +76,13 @@ class TaskCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class TaskUpdate(LoginRequiredMixin, UpdateView):
+class TaskItemUpdate(LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['todo_list', 'title', 'description', 'is_completed']
     success_url = reverse_lazy('tasks')
 
 
-class TaskDelete(LoginRequiredMixin, DeleteView):
+class TaskItemDelete(LoginRequiredMixin, DeleteView):
     model = Task
     context_object_name = 'task'
     success_url = reverse_lazy('tasks')
