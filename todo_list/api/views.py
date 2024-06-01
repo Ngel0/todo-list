@@ -19,5 +19,5 @@ class TaskApiView(ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        return Task.objects.all()
+        return Task.objects.filter(user=self.request.user)
     #http_method_names = ['get']
