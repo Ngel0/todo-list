@@ -30,4 +30,3 @@ class TaskApiView(ModelViewSet):
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
-    #http_method_names = ['get']
