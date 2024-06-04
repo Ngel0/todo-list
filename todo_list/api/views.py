@@ -1,4 +1,3 @@
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import ListAPIView
@@ -8,6 +7,10 @@ from .serializers import TaskListSerializer, TaskSerializer
 
 
 class TaskListApiView(ModelViewSet):
+    """
+    ViewSet for TaskList model.
+    Handles CRUD operations for TaskLists.
+    """
     serializer_class = TaskListSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -15,8 +18,10 @@ class TaskListApiView(ModelViewSet):
         return TaskList.objects.filter(user=self.request.user)
 
 
-# api view for listing tasks of a specific tasklist
 class TaskListTasksApiView(ListAPIView):
+    """
+    APIView for listing tasks of a specific tasklist.
+    """
     serializer_class = TaskSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -25,6 +30,10 @@ class TaskListTasksApiView(ListAPIView):
 
 
 class TaskApiView(ModelViewSet):
+    """
+    ViewSet for Task model.
+    Handles CRUD operations for Tasks.
+    """
     serializer_class = TaskSerializer
     permission_classes = (IsAuthenticated,)
 

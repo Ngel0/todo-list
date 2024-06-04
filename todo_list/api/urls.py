@@ -12,6 +12,7 @@ router.register(r'api/tasks', views.TaskApiView, basename='task')
 urlpatterns = router.urls
 
 urlpatterns += [
+    # Get tasks for a specific tasklist by ID
     path('api/tasklists/<int:pk>/tasks/', views.TaskListTasksApiView.as_view(), name='tasklist-tasks'),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='docs'),
