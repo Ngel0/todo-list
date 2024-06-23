@@ -7,7 +7,7 @@
 <table>
     {% for tasklist in tasklists %}
     <tr>
-        <td><a href="{% url 'tasklist-detail' tasklist.id %}">{{tasklist.title}}</a></td>
+        <td><a href="{% url 'detail-tasklist' tasklist.id %}">{{tasklist.title}}</a></td>
         <td><a href="{% url 'update-tasklist' tasklist.id %}">Rename</a></td>
         <td><a href="{% url 'delete-tasklist' tasklist.id %}">Delete</a></td>
     </tr>
