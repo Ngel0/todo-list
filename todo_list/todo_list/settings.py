@@ -24,10 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
@@ -79,10 +77,8 @@ TEMPLATES = [
     },
 ]
 
-# URL to redirect to after login
 LOGIN_REDIRECT_URL = 'tasks'
 
-# URL to redirect to after logout
 LOGOUT_REDIRECT_URL = 'login'
 
 WSGI_APPLICATION = 'todo_list.wsgi.application'
@@ -132,10 +128,14 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Django REST framework settings
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -146,6 +146,9 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+
+# drf_spectacular settings
+
 SPECTACULAR_SETTINGS = {
     'TITLE': 'DRF todo-list API',
     'DESCRIPTION': 'A simple ToDo list pet project',
@@ -154,6 +157,8 @@ SPECTACULAR_SETTINGS = {
     'SCHEMA_PATH_PREFIX': '/api/',
 }
 
+
 # Celery settings
+
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'
