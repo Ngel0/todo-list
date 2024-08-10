@@ -1,7 +1,9 @@
 from django.contrib.auth import login, authenticate
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+
 from .forms import SignUpForm
+from .tasks import send_welcome_email
 
 
 class SignUpView(CreateView):
@@ -15,4 +17,5 @@ class SignUpView(CreateView):
         raw_password = form.cleaned_data.get('password1')
         user = authenticate(username=username, password=raw_password)
         login(self.request, user)
+        send_welcome_email.delay_on_commit(user.pk)
         return response
