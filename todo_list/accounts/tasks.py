@@ -15,7 +15,7 @@ def send_welcome_email(user_pk):
         message=message,
         html_message=html_message,
         from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[user.email],  # todo: add email field to user registration
+        recipient_list=[user.email],
         fail_silently=False,
     )
     return 'Done'
