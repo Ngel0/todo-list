@@ -4,9 +4,9 @@ services:
     image: postgres:16.2-bookworm
     restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=postgres
     volumes:
       - db_data:/var/lib/postgresql/data
 
@@ -40,6 +40,7 @@ services:
       - rabbitmq
 
   celery:
+    container_name: celery
     build: ./todo_list
     command: celery -A todo_list worker -l info
     environment:
