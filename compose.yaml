@@ -19,6 +19,14 @@ services:
     ports:
       - "5050:80"
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.13.7-management
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   django:
     container_name: django
     build: ./todo_list
@@ -42,7 +50,7 @@ services:
   celery:
     container_name: celery
     build: ./todo_list
-    command: celery -A todo_list worker -l info
+    command: celery -A todo_list.celery:app worker -l info
     environment:
       - DEBUG=True
       - SECRET_KEY=${SECRET_KEY}
@@ -57,18 +65,10 @@ services:
       - django
       - rabbitmq
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.13.7-management
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-
   flower:
     container_name: flower
     build: ./todo_list
-    command: celery -A todo_list flower -l info
+    command: celery -A todo_list.celery:app flower -l info
     environment:
       - CELERY_BROKER_URL=${CELERY_BROKER_URL}
       - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
